@@ -6,7 +6,7 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 10:46:10 by junesalaber       #+#    #+#             */
-/*   Updated: 2024/02/13 12:40:39 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/13 14:06:47 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	parent(char **argv, int *mainfd) //char **env)
 	execlp("cat", "cat", "-e", NULL);
 }
 
-int	main(int argc, char **argv)//char **env)
+int	main(int argc, char **argv, char **env)
 {
 	int		mainfd[2];
 	pid_t	pid;
@@ -52,4 +52,9 @@ int	main(int argc, char **argv)//char **env)
 		else
 			parent(argv, mainfd);
 	}
+	// while (env)
+	// {
+	// 	printf("%s\n", *env);
+	// 	env++;
+	// }
 }
