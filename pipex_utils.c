@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 13:26:55 by junesalaber       #+#    #+#             */
-/*   Updated: 2024/02/13 10:59:47 by jsalaber         ###   ########.fr       */
+/*   Created: 2024/02/13 10:39:52 by jsalaber          #+#    #+#             */
+/*   Updated: 2024/02/13 12:09:52 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "pipex.h"
 
-# include "libft/libft.h"
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
-# include <fcntl.h>
+// O_CREAT: por si el archivo no esta creado
+// O_TRUNC por si esta creado para vaciarlo
 
-int	open_file(char *file, int type);
+int	open_file(char *file, int type)
+{
+	int	result;
 
-#endif
+	if (type == 0)
+		result = open(file, O_RDONLY);
+	if (type == 1)
+		result = open(file, O_WRONLY | O_CREAT | O_TRUNC);
+	if (result == -1)
+		exit(1);
+	return (result);
+}
