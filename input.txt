@@ -1,0 +1,7 @@
+Hola
+Hola que tal
+Hola como estas
+bien
+// grep tiene en cuenta las lineas que sale hola
+//wc -c cuenta los caracteres de cada una de esas lineas mas el salto de lineas
+// wc -w cuenta las palabras de las lineas en las que sale hola
