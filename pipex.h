@@ -6,7 +6,7 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 13:26:55 by junesalaber       #+#    #+#             */
-/*   Updated: 2024/02/14 13:11:57 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:14:14 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 
 int		open_file(char *file, int type);
 char	*ft_getenv(char **env);
@@ -28,6 +29,5 @@ void	exec(char *cmd, char **env);
 void	child(char **argv, int *mainfd, char **env);
 void	parent(char **argv, int *mainfd, char **env);
 void	error(int n);
-
 
 #endif

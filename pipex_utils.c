@@ -6,7 +6,7 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:39:52 by jsalaber          #+#    #+#             */
-/*   Updated: 2024/02/14 13:57:35 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/16 09:23:21 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	open_file(char *file, int type)
 	if (type == 0)
 		result = open(file, O_RDONLY);
 	if (type == 1)
-		result = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		result = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (result == -1)
 		exit(1);
 	return (result);

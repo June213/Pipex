@@ -6,7 +6,7 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 10:46:10 by junesalaber       #+#    #+#             */
-/*   Updated: 2024/02/14 12:50:20 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:45:34 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,10 @@ int	main(int argc, char **argv, char **env)
 		if (pid == -1)
 			exit(-1);
 		else if (pid == 0)
+		{
 			child(argv, mainfd, env);
-		else
-			parent(argv, mainfd, env);
+		}
+		wait(NULL);
+		parent(argv, mainfd, env);
 	}
 }

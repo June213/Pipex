@@ -17,22 +17,20 @@ LIBFT_INC = -I$(LIBFT)
 LIBFT_OBJS = $(LIBFT)/*.o
 
 $(NAME): $(OBJS) $(LIBFT_A)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_A) -o $(NAME)
 
 $(LIBFT_A):
-	@$(MAKE) -C $(LIBFT)
+	$(MAKE) -C $(LIBFT)
 
 all: $(NAME)
 
 clean:
-	@$(RM) $(OBJS)
-	@$(MAKE) clean -C $(LIBFT)
+	$(RM) $(OBJS)
+	$(MAKE) clean -C $(LIBFT)
 
 fclean: clean
-	@$(RM) $(NAME) $(LIBFT_A)
+	$(RM) $(NAME) $(LIBFT_A)
 
 re: fclean all
-
-MAKEFLAGS += -s
 
 .PHONY: all clean fclean re
