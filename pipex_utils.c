@@ -6,26 +6,30 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:39:52 by jsalaber          #+#    #+#             */
-/*   Updated: 2024/02/16 09:23:21 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/21 09:02:53 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// O_CREAT: por si el archivo no esta creado
-// O_TRUNC por si esta creado para vaciarlo
-
-int	open_file(char *file, int type)
+int	manage_error(int argc, char **argv)
 {
-	int	result;
+	int	error;
 
-	if (type == 0)
-		result = open(file, O_RDONLY);
-	if (type == 1)
-		result = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (result == -1)
-		exit(1);
-	return (result);
+	error = 0;
+	if (argc != 5)
+	{
+		ft_putendl_fd("Incorrect argument format", 2);
+		error = 1;
+	}
+	if (ft_strlen(argv[2]) == 0 || ft_strlen(argv[3]) == 0
+		|| (argv[2][0] == ' ' && !ft_isalnum(argv[2][1]))
+		|| (argv[3][0] == ' ' && !ft_isalnum(argv[3][1])))
+	{
+		ft_putendl_fd("command not found", 2);
+		error = 1;
+	}
+	return (error);
 }
 
 char	*ft_getenv(char **env)
@@ -62,6 +66,7 @@ char	*ft_getpath(char *cmd, char **env)
 
 	split_path = ft_split(ft_getenv(env), ':');
 	split_cmd = ft_split(cmd, ' ');
+	printf("%p\n", split_cmd[0]);
 	i = 0;
 	while (split_path[i])
 	{
