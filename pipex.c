@@ -6,7 +6,7 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 10:46:10 by junesalaber       #+#    #+#             */
-/*   Updated: 2024/02/19 13:41:38 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/21 10:06:39 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ int	main(int argc, char **argv, char **env)
 	int		fd_infile;
 	int		fd_outfile;
 
-	fd_infile = open_infile(argv);
-	fd_outfile = open_outfile(argv);
 	if (manage_error(argc, argv) == 0)
 	{
+		fd_infile = open_infile(argv);
+		fd_outfile = open_outfile(argv);
 		p_pipe = pipe(mainfd);
 		if (p_pipe == -1)
 		{

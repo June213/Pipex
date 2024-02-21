@@ -6,7 +6,7 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:39:52 by jsalaber          #+#    #+#             */
-/*   Updated: 2024/02/21 09:02:53 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/21 10:17:57 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ int	manage_error(int argc, char **argv)
 		ft_putendl_fd("Incorrect argument format", 2);
 		error = 1;
 	}
-	if (ft_strlen(argv[2]) == 0 || ft_strlen(argv[3]) == 0
-		|| (argv[2][0] == ' ' && !ft_isalnum(argv[2][1]))
-		|| (argv[3][0] == ' ' && !ft_isalnum(argv[3][1])))
+	else
 	{
-		ft_putendl_fd("command not found", 2);
-		error = 1;
+		if (ft_strlen(argv[2]) == 0 || ft_strlen(argv[3]) == 0
+			|| (argv[2][0] == ' ' && !ft_isalnum(argv[2][1]))
+			|| (argv[3][0] == ' ' && !ft_isalnum(argv[3][1])))
+		{
+			ft_putendl_fd("command not found", 2);
+			error = 1;
+		}
 	}
 	return (error);
 }
@@ -66,7 +69,6 @@ char	*ft_getpath(char *cmd, char **env)
 
 	split_path = ft_split(ft_getenv(env), ':');
 	split_cmd = ft_split(cmd, ' ');
-	printf("%p\n", split_cmd[0]);
 	i = 0;
 	while (split_path[i])
 	{
