@@ -6,7 +6,7 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 10:46:10 by junesalaber       #+#    #+#             */
-/*   Updated: 2024/02/21 10:06:39 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/22 12:37:52 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,51 +15,66 @@
 int	open_infile(char **argv)
 {
 	int	fd_in;
-	int	error;
 
 	fd_in = open(argv[1], O_RDONLY, 0777);
 	if (fd_in < 0)
 	{
 		ft_putendl_fd("Incorrect infile", 2);
-		error = 1;
-		exit(-1);
-		return (error);
+		exit(1);
 	}
-	else
-		return (fd_in);
+	return (fd_in);
 }
 
-int	open_outfile(char **argv)
+void	access_outfile(char **argv)
 {
-	int	error;
+	int	fd_out;
+	int	acc;
+
+	acc = access(argv[4], F_OK | W_OK);
+	if (acc < 0)
+	{
+		fd_out = open(argv[4], O_WRONLY | O_CREAT, 0777);
+		if (fd_out == -1)
+		{
+			ft_putendl_fd("Incorrect outfile", 2);
+			exit(1);
+		}
+		close(fd_out);
+	}
+}
+
+void	child(char **argv, int infile_fd, int *mainfd, char **env)
+{
+	if (infile_fd < 0)
+	{
+		exit(-1);
+	}
+	else
+	{
+		dup2(infile_fd, 0);
+		dup2(mainfd[1], 1);
+		close(mainfd[0]);
+		exec(argv[2], env);
+	}
+}
+
+void	parent(char **argv, int *mainfd, char **env)
+{
 	int	fd_out;
 
 	fd_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd_out < 0)
 	{
 		ft_putendl_fd("Incorrect outfile", 2);
-		error = 1;
 		exit(-1);
-		return (error);
 	}
 	else
-		return (fd_out);
-}
-
-void	child(char **argv, int infile_fd, int *mainfd, char **env)
-{
-	dup2(infile_fd, 0);
-	dup2(mainfd[1], 1);
-	close(mainfd[0]);
-	exec(argv[2], env);
-}
-
-void	parent(char **argv, int outfile_fd, int *mainfd, char **env)
-{
-	dup2(outfile_fd, 1);
-	dup2(mainfd[0], 0);
-	close(mainfd[1]);
-	exec(argv[3], env);
+	{
+		dup2(fd_out, 1);
+		dup2(mainfd[0], 0);
+		close(mainfd[1]);
+		exec(argv[3], env);
+	}
 }
 
 int	main(int argc, char **argv, char **env)
@@ -68,12 +83,11 @@ int	main(int argc, char **argv, char **env)
 	pid_t	pid;
 	int		p_pipe;
 	int		fd_infile;
-	int		fd_outfile;
 
-	if (manage_error(argc, argv) == 0)
+	if (manage_error(argc) == 0)
 	{
+		access_outfile(&argv[4]);
 		fd_infile = open_infile(argv);
-		fd_outfile = open_outfile(argv);
 		p_pipe = pipe(mainfd);
 		if (p_pipe == -1)
 		{
@@ -86,6 +100,7 @@ int	main(int argc, char **argv, char **env)
 		else if (pid == 0)
 			child(argv, fd_infile, mainfd, env);
 		wait(NULL);
-		parent(argv, fd_outfile, mainfd, env);
+		parent(argv, mainfd, env);
 	}
+	return (0);
 }

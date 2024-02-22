@@ -6,13 +6,13 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:39:52 by jsalaber          #+#    #+#             */
-/*   Updated: 2024/02/21 10:17:57 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/22 12:27:30 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	manage_error(int argc, char **argv)
+int	manage_error(int argc)
 {
 	int	error;
 
@@ -21,16 +21,6 @@ int	manage_error(int argc, char **argv)
 	{
 		ft_putendl_fd("Incorrect argument format", 2);
 		error = 1;
-	}
-	else
-	{
-		if (ft_strlen(argv[2]) == 0 || ft_strlen(argv[3]) == 0
-			|| (argv[2][0] == ' ' && !ft_isalnum(argv[2][1]))
-			|| (argv[3][0] == ' ' && !ft_isalnum(argv[3][1])))
-		{
-			ft_putendl_fd("command not found", 2);
-			error = 1;
-		}
 	}
 	return (error);
 }
@@ -69,23 +59,23 @@ char	*ft_getpath(char *cmd, char **env)
 
 	split_path = ft_split(ft_getenv(env), ':');
 	split_cmd = ft_split(cmd, ' ');
-	i = 0;
-	while (split_path[i])
+	if (!split_cmd)
+	{
+		ft_putendl_fd("incorrect command format", 2);
+		ft_free(split_path);
+		exit(1);
+	}
+	i = -1;
+	while (split_path[++i])
 	{
 		part_path = ft_strjoin(split_path[i], "/");
 		exec_path = ft_strjoin(part_path, split_cmd[0]);
 		free(part_path);
 		if (access(exec_path, X_OK) == 0)
-		{
-			ft_free(split_cmd);
-			return (exec_path);
-		}
-		i++;
+			return (ft_free(split_cmd), exec_path);
 		free (exec_path);
 	}
-	ft_free(split_path);
-	ft_free(split_cmd);
-	return (cmd);
+	return (ft_free(split_path), ft_free(split_cmd), cmd);
 }
 
 void	exec(char *cmd, char **env)
