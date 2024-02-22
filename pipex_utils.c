@@ -6,7 +6,7 @@
 /*   By: jsalaber <jsalaber@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 10:39:52 by jsalaber          #+#    #+#             */
-/*   Updated: 2024/02/22 12:27:30 by jsalaber         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:06:47 by jsalaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ void	exec(char *cmd, char **env)
 	exec = execve(path, split_cmd, env);
 	if (exec == -1)
 	{
-		ft_putstr_fd("command not found:", 2);
-		ft_putendl_fd(split_cmd[0], 2);
+		ft_putstr_fd("command not found", 2);
 		ft_free(split_cmd);
 		exit(0);
 	}
